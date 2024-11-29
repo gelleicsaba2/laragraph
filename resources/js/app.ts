@@ -11,6 +11,7 @@ import signupController from './controllers/SignupController'
 import modalController from './controllers/ModalController'
 import todoController from './controllers/TodoController'
 import changeTodoController from './controllers/ChangeTodoController'
+import newTodoController from './controllers/NewTodoController';
 const addController = (name: string, controller: Controller) => (window as any)[name] = controller;
 const addService = (name: string, service: Service) => (window as any)[name] = service;
 //const addFunction = (name: string, fn: Function) => (window as any)[name] = fn;
@@ -25,3 +26,4 @@ addController('signupController', signupController);
 addController('modalController', modalController);
 addController('todoController', todoController);
 addController('changeTodoController', changeTodoController)
+addController('newTodoController', newTodoController)

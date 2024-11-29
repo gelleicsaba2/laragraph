@@ -54,6 +54,25 @@ export class GraphqlService {
         return rsp?.data?.todoById
 
     }
+    public async removeTodo(todo: any, hash: string) {
+        const rsp = await this.client.query({
+            "query": `mutation { removeTodo(hash: "${hash}", id: ${todo['id']}, uid: ${todo['uid']}) {success responseCode } }`
+        })
+        return rsp?.data?.removeTodo
+    }
+    public async getUserId(hash: string) {
+        const rsp = await this.client.query({
+            "query": `mutation { checkUser(hash: "${hash}", passive: false) {success responseCode} }`
+        })
+        return rsp?.data?.checkUser?.responseCode;
+    }
+    public async newTodo(todo: any, hash: string) {
+        const rsp = await this.client.query({
+            "query": `mutation { newTodo(hash: "${hash}", todo: "${todo['todo']}", todo_start: "${todo['todo_start']}", todo_end: "${todo['todo_end']}", uid: ${todo['uid']}) {success responseCode } }`
+        })
+        return rsp?.data?.newTodo
+    }
+
 
 
 }

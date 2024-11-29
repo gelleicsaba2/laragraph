@@ -3,6 +3,7 @@ import { Init } from './Controller'
 import { dateTimeText, addFromTemplate, WEEKDAYS } from '../services/utils'
 import storage from '../services/Storage'
 import { PageController } from './PageController'
+import { ModalController } from './ModalController'
 
 export class TodoController implements Init {
 
@@ -11,7 +12,8 @@ export class TodoController implements Init {
 
     async getTodos() {
         const hash = storage.getValueOrDefault('hash', 'invalid-hash')
-        const _time = dateTimeText(new Date())
+        //const _time = dateTimeText(new Date())
+        const _time = (document.getElementById('inputStartDate') as HTMLInputElement).value+" 00:00:00";
         let rsp: any = undefined
         if (! this.searchText) {
             rsp = await (window["graphqlService"] as GraphqlService).todos(_time, hash, this.sort)
@@ -80,10 +82,49 @@ export class TodoController implements Init {
 
     }
     async remove(id: number, uid: number) {
-        console.log(`Todo Remove ${id}`)
+        const scroll = { X: window.scrollX, Y: window.scrollY }
+        console.log(`Todo Remove ${id}`);
+        const hash = storage.getValueOrDefault('hash', 'invalid-hash')
+        let remove = await (window['graphqlService'] as GraphqlService).removeTodo({id: id, uid: uid}, hash);
+        if (remove?.success) {
+            (window['modalController'] as ModalController).show(
+                    'Todo has been removed.',
+                    'Ok',
+                    async ()=>{
+                        await this.reload()
+                        window.scrollTo(scroll.X, scroll.Y);
+                    }
+                )
+        } else {
+            (window['modalController'] as ModalController).show(
+                `There has been an error. (code:${remove?.responseCode}`,
+                'Ok',
+                async ()=>{
+                    await this.reload()
+                    window.scrollTo(scroll.X, scroll.Y);
+                }
+            )
+        }
     }
+
+    async newTodo() {
+        console.log(`Todo New`);
+        const hash = storage.getValueOrDefault("hash", false);
+        const uid = await (window['graphqlService'] as GraphqlService).getUserId(hash);
+        if (uid) {
+            console.log(`uid: ${uid}`);
+            (window['pageController'] as PageController).changeRoute(
+                `new-todo`, window['newTodoController'] as Init, {uid: uid, hash: hash});
+        }
+
+    }
+
     async init() {
-        console.log("TodoController init")
+        console.log("TodoController init");
+
+        (document.getElementById('inputStartDate') as HTMLInputElement).value =
+            dateTimeText(new Date()).substring(0,10);
+
         const todos = await this.getTodos()
         const place = document.getElementById("TodosPlace") as HTMLElement
         const templ = document.getElementById("TodoTemplate") as HTMLTemplateElement

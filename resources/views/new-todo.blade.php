@@ -28,7 +28,7 @@
         </div>
         <div class="grid grid-rows-2 grid-cols-2 gap-4 w-full mt-3">
             <div>
-                <button class="btn-primary" onclick="changeTodoController.post()">Save</button><br>
+                <button class="btn-primary" onclick="newTodoController.post()">Save</button><br>
                 @include('./error-msg')
             </div>
             <div>

@@ -35,3 +35,6 @@ Route::get('/signup', function () {
 Route::get('/change-todo/{id}', function (string $id) {
     return view('change-todo', ['id' => $id]);
 });
+Route::get('/new-todo', function () {
+    return view('new-todo');
+});

@@ -30,7 +30,7 @@ final readonly class CheckUser
             $affected = DB::table('login_sessions')
                 ->where('id', $login->id)
                 ->update(['expiration_time' => $expiration]);
-            return new CommonResponse(true, 310);
+            return new CommonResponse(true, $login->user_id);
         } else {
             $expiration = $login->expiration_time - $tm;
             return new CommonResponse(true, $expiration);
