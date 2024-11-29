@@ -16,7 +16,12 @@ final readonly class Signup
         $email = $data['email'];
         $name = $data['name'];
         $pass = $data['pass'];
-
+        if (strlen($name) < 2 || strlen($fullname) < 3 || strlen($email)<4 || strlen($pass) < 4) {
+            return new CommonResponse(false, -15);
+        }
+        if (strpos($email,'@') === false || strpos($email,' ') !== false) {
+            return new CommonResponse(false, -15);
+        }
         $user = DB::table('users')
             ->where('name', $name)
             ->orWhere('email', $email)
