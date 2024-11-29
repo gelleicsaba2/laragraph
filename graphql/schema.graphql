@@ -1,0 +1,55 @@
+type Query {
+  hello: String
+}
+
+type Query {
+  todos(hash: String!, start: String!, sort: String, search: String): TodosResponse
+  todoById(hash: String!, id: Int!): TodoByIdResponse
+}
+
+type Mutation {
+  loginUser(name: String!, pass: String!): LoginResponse
+  logoutUser(name: String!, hash: String!): LogoutResponse
+  checkUser(hash: String!, passive: Boolean!): CommonResponse
+  signup(fullname: String!, email: String!, name: String!, pass: String!): CommonResponse
+  changeTodo(hash: String!, id: Int!, todo: String!, todo_start: String!, todo_end: String!, uid: Int!): CommonResponse
+}
+
+type LoginResponse {
+  success: Boolean!
+  hash: String!
+  fullname: String!
+  email: String!
+  responseCode: Int!
+  expire: Int!
+}
+
+type LogoutResponse {
+  success: Boolean!
+  responseCode: Int!
+}
+
+type CommonResponse {
+  success: Boolean!
+  responseCode: Int!
+}
+
+type TodosResponse {
+  success: Boolean!
+  responseCode: Int!
+  data: [Todo]!
+}
+
+type TodoByIdResponse {
+  success: Boolean!
+  responseCode: Int!
+  data: Todo!
+}
+
+type Todo {
+  id: Int!
+  todo: String!
+  todo_start: String!
+  todo_end: String!
+  uid: Int!
+}

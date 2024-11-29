@@ -1,0 +1,1 @@
+<div class="w-full text-xs mt-2 mb-2" id="errorMsgContainer"></div>
