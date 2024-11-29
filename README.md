@@ -1,1 +1,2 @@
-# laragraph
+# Laravel GraphQL API-s example project
+
