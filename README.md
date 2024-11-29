@@ -20,7 +20,7 @@ Client api (changeRoute) => Get request => Blade template => html response
 The usual todo CRUD operations with GraphQL.
 
 ## Simple UI controls & Tailwind design
-I used very simple html input controls with tailwind css classes. In only one case I use MaryUI (to a single popup menu).
+I used very simple html input controls with tailwind css classes. In only one case I use MaryUI (to a simple popup menu).
 
 ## Unit tests
 There are Unit tests to user login/sign up/logout services.
